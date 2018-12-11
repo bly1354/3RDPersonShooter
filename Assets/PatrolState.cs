@@ -14,6 +14,8 @@ public class PatrolState : StateMachineBehaviour {
         Vector3 direction = (Vector3)Random.insideUnitSphere * parent.GetComponent<Enemy>().patrolRadius;
         direction.y = 0;
         target = parent.GetComponent<Enemy>().patrolPoint.position + direction;
+        parent.GetComponent<Enemy>().agent.SetDestination(target);
+
     }
 
 
@@ -32,7 +34,6 @@ public class PatrolState : StateMachineBehaviour {
         if(Vector3.Distance(parent.transform.position, target) < threshold)
         {
             SetTarget();
-            parent.GetComponent<Enemy>().agent.SetDestination(target);
         }
        
     }

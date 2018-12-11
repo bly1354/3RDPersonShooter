@@ -25,6 +25,7 @@ public class RaycastWeapon : Weapon {
 
     protected override void LaunchProjectile()
     {
+        base.LaunchProjectile();
         RaycastHit hit;
         GameObject bulletTrail = Instantiate(raycastData.trail, raycastData.muzzle.position, Quaternion.LookRotation(raycastData.muzzle.forward));
       
@@ -37,7 +38,7 @@ public class RaycastWeapon : Weapon {
 
             if(hit.collider.gameObject.GetComponent<hitbox>())
             {
-                Destroy(hit.collider.gameObject);
+                hit.collider.gameObject.GetComponent<hitbox>().onHit.Invoke(data.damage * raycastData.muzzle.transform.forward);
             }
         }
        

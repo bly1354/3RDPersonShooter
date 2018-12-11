@@ -20,6 +20,9 @@ public class WeaponData
     public int myPlayerLayer;
     public float reloadTime;
     public float accuracyResetRate;
+    public AudioSource audioSrc;
+    public AudioClip fireAudio;
+    public AudioClip reloadAudio;
 }
 
 public class Weapon : MonoBehaviour {
@@ -27,7 +30,7 @@ public class Weapon : MonoBehaviour {
     protected WeaponData data;
     private bool firing = false;
     [SerializeField]
-    private bool reloading = false;
+    public bool reloading = false;
     private int bulletsRemaining;
     protected float currentAccuracy;
     private float fireWaitTime = 0f;
@@ -98,13 +101,24 @@ public class Weapon : MonoBehaviour {
 
     public void Reload()
     {
+        if(data.audioSrc)
+        {
+            data.audioSrc.PlayOneShot(data.reloadAudio);
+        }
         if (!reloading)
         {
             StartCoroutine(StartReload());
         }
     }
 
-    protected virtual void LaunchProjectile(){}
+    protected virtual void LaunchProjectile()
+    {
+        if(data.audioSrc)
+        {
+
+            data.audioSrc.PlayOneShot(data.fireAudio);
+        }
+    }
 
     private void Shoot()
     { 

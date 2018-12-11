@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -9,12 +10,21 @@ public class PlayerControls : MonoBehaviour
     public float rotationSpeed = 1;
     public Animator anim;
     public Weapon weapon;
+    public List<Weapon> myWeapons = new List<Weapon>();
+    public GameObject turnOnLight;
+
+    public float maxHealth = 100;
+  
+    private float currentHealth;
 
     private static PlayerControls Instance;
     private Rigidbody rb;
+    private int index;
 
     private void Awake()
     {
+        turnOnLight.SetActive(true);
+
         if (Instance)
         {
             Destroy(Instance.gameObject);
@@ -25,7 +35,7 @@ public class PlayerControls : MonoBehaviour
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
-      
+        currentHealth = maxHealth;
 	}
 	
     public static PlayerControls GetInstance()
@@ -37,6 +47,7 @@ public class PlayerControls : MonoBehaviour
         Move();
         Rotate();
         shoot();
+        SwitchWeapon();
 	}
 
     private void Move()
@@ -67,6 +78,30 @@ public class PlayerControls : MonoBehaviour
         else
         {
             weapon.StopFiring();
+        }
+    }
+
+    void SwitchWeapon()
+    {
+        if(Input.GetButtonDown("Fire2") && !weapon.reloading)
+        {
+            weapon.gameObject.SetActive(false);
+            index = (index + 1) % myWeapons.Count;
+            weapon = myWeapons[index];
+            weapon.gameObject.SetActive(true);
+        }
+    }
+
+    public void Damage(Vector3 damage)
+    {
+        currentHealth -= damage.magnitude;
+        
+        if (currentHealth <= 0)
+        {
+        
+
+            SceneManager.LoadScene(0);
+
         }
     }
 }

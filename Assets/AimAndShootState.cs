@@ -17,6 +17,7 @@ public class AimAndShootState : StateMachineBehaviour {
     {
         parent.transform.LookAt(parent.gameObject.GetComponent<Enemy>().player.transform.position);
         parent.GetComponent<Enemy>().weapon.Fire();
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

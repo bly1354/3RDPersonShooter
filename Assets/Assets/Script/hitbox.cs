@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 [System.Serializable]
-public class MyFloatEvent : UnityEvent<float>
+public class MyVector3Event : UnityEvent<Vector3>
 {
 }
 
 public class hitbox : MonoBehaviour
 {
-    public MyFloatEvent onHit;
+    public MyVector3Event onHit;
 
 // Use this for initialization
 	void Start () {
